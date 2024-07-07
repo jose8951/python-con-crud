@@ -1,0 +1,161 @@
+<!--esta parte es el html comum-->
+{% extends "layout.html" %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5 mb-5 text-primary">Python Flask mysql</h1>
+  
+    <div class="container">
+      <div class="card shadow color-container">
+        <div class="card-body">
+          <form action="/user" method="post">
+            <div class="row mb-3">
+              <div class="col">
+                <label>Correo</label>
+                <input
+                  type="text"
+                  class="form-control mb-3"
+                  name="correo"
+                  placeholder="Correo"
+                />
+              </div>
+
+              <div class="col">
+                <label>Nombre</label>
+                <input
+                  type="text"
+                  class="form-control mb-3"
+                  name="nombre"
+                  placeholder="Nombre"
+                />
+              </div>
+
+              <div class="col">
+                <label>password</label>
+                <input
+                  type="text"
+                  class="form-control mb-3"
+                  name="password"
+                  placeholder="password"
+                />
+              </div>
+              <div class="col">
+                <button type="submit" class="btn btn-primary mt-4 mb-3">
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!--table-->
+          <table class="table table-bordered">
+            <thead>
+              <th scope="col">#</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Password</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </thead>
+            <tbody>
+              {% for d in data %}
+              <tr>
+                <td>{{d.id}}</td>
+                <td>{{d.correo}}</td>
+                <td>{{d.nombre}}</td>
+                <td>{{d.password}}</td>
+                <td>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    id="btn-edit{{d.id}}"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal{{d.id}}"
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td>
+                  <a
+                    href="{{url_for('delete', id=d.id)}}"
+                    class="button btn btn-danger btn-sm"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+
+              <!--modal-->
+
+              <div
+                class="modal fade"
+                id="modal{{d.id}}"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        {{d.correo}}
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+
+
+                      <form action="/edit/{{d.id}}" method="post">
+                        <label>Correo</label>
+                        <input
+                          type="text"
+                          class="form-control mb-3"
+                          name="correo"
+                          placeholder="Correo"
+                          value="{{d.correo}}"
+                        />
+                        <label>Nombre</label>
+                        <input
+                          type="text"
+                          class="form-control mb-3"
+                          name="nombre"
+                          placeholder="Nombre"
+                          value="{{d.nombre}}"
+                        />
+                        <label>password</label>
+                        <input
+                          type="text"
+                          class="form-control mb-3"
+                          name="password"
+                          placeholder="password"
+                          value="{{d.password}}"
+                        />                     
+                    </div>
+                                        <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Save changes
+                      </button>
+                    </div>
+                </form>
+                  </div>
+                </div>
+              </div>
+
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
